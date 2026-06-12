@@ -9,12 +9,19 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Colors } from '../src/constants/colors';
 import { ArrowLeftIcon, LockIcon, EyeIcon, EyeOffIcon } from '../src/components/ui/Icons';
+import { useAuthStore } from '../src/store/authStore';
 
 export default function LoginScreen() {
   const { t } = useTranslation();
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
+
+// LoginScreen ichida:
+const login = useAuthStore((s) => s.login);
+
+// Sign In button onPress:
+
 
   return (
     <View style={styles.root}>
@@ -94,7 +101,8 @@ export default function LoginScreen() {
               </View>
 
               {/* Sign In Button */}
-              <TouchableOpacity style={styles.signInBtn} onPress={() => router.replace('/(tabs)')} activeOpacity={0.85}>
+              <TouchableOpacity style={styles.signInBtn} onPress={() => { login(); router.replace('/(tabs)');
+}} activeOpacity={0.85}>
                 <LinearGradient colors={[Colors.neon, '#a8d424']} style={styles.signInGradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
                   <Text style={styles.signInText}>{t('login.signIn')}</Text>
                 </LinearGradient>

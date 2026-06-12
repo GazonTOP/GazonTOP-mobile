@@ -9,6 +9,7 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Colors } from '../src/constants/colors';
 import { ArrowLeftIcon, UserIcon, LockIcon, MailIcon, EyeIcon, EyeOffIcon, CheckIcon } from '../src/components/ui/Icons';
+import { useAuthStore } from '../src/store/authStore';
 
 export default function RegisterScreen() {
   const { t } = useTranslation();
@@ -17,6 +18,11 @@ export default function RegisterScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
+
+  const login = useAuthStore((s) => s.login);
+
+  // Register button onPress:
+
 
   return (
     <View style={styles.root}>
@@ -143,7 +149,10 @@ export default function RegisterScreen() {
               </View>
 
               {/* Register Button */}
-              <TouchableOpacity style={styles.registerBtn} onPress={() => router.replace('/(tabs)')} activeOpacity={0.85}>
+              <TouchableOpacity style={styles.registerBtn} onPress={() => {
+                login();
+                router.replace('/(tabs)');
+              }} activeOpacity={0.85}>
                 <LinearGradient colors={[Colors.neon, '#a8d424']} style={styles.registerGradient} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}>
                   <Text style={styles.registerBtnText}>{t('register.registerBtn')}</Text>
                 </LinearGradient>
